@@ -36,7 +36,7 @@ const { Server } = require('socket.io');
 const cors = require('cors');
 const auth = require('./middleware/auth.js')();
 
-const mongoDb = config.MONGO_URL; // DO NOT PUSH Mongo_DEV_URL
+const mongoDb = process.env.MONGO_URL; // DO NOT PUSH Mongo_DEV_URL
 mongoose.set('strictQuery', true);
 mongoose
   .connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true })
@@ -79,7 +79,7 @@ const onConnection = (socket) => {
 };
 io.on('connection', (socket) => onConnection(socket));
 
-server.listen(config.PORT, () => {
+server.listen(process.env.PORT, () => {
   console.log('listening on 3001');
 });
 
