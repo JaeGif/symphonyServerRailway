@@ -21,7 +21,7 @@ require('dotenv').config();
 
 app.use(
   session({
-    secret: config.SECRET,
+    secret: process.env.SECRET,
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_URL,
     }),
