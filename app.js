@@ -8,15 +8,6 @@ const logger = require('morgan');
 const User = require('./models/User');
 const bodyParser = require('body-parser');
 
-const MongoStore = require('connect-mongo');
-const session = require('express-session')({
-  secret: config.SECRET,
-  resave: true,
-  store: MongoStore.create({ mongoUrl: config.MONGO_URL }),
-  saveUninitialized: false,
-});
-app.use(session);
-
 const mongoose = require('mongoose');
 const passport = require('passport');
 const localStrategy = require('passport-local');
