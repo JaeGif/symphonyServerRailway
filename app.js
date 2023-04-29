@@ -15,7 +15,19 @@ const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
 const messagesRouter = require('./routes/messages');
 const roomsRouter = require('./routes/rooms');
+var session = require('express-session');
+var MongoStore = require('connect-mongo');
 
+app.use(
+  session({
+    secret: config.SECRET,
+    store: MongoStore.create({
+      mongoUrl: config.MONGO_URL,
+    }),
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require('socket.io');
