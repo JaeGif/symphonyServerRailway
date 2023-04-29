@@ -17,12 +17,13 @@ const messagesRouter = require('./routes/messages');
 const roomsRouter = require('./routes/rooms');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+require('dotenv').config();
 
 app.use(
   session({
     secret: config.SECRET,
     store: MongoStore.create({
-      mongoUrl: config.MONGO_URL,
+      mongoUrl: process.env.MONGO_URL,
     }),
     resave: false,
     saveUninitialized: false,
