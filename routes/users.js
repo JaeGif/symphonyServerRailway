@@ -2,15 +2,19 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../middleware/uploads');
 const User = require('../models/User');
-
+const auth = require('../middleware/auth')();
 const userController = require('../controllers/userController');
 const singleUpload = upload.single('image');
 
 /* GET users listing. */
-router.get('/users', userController.users_get);
-router.get('/users/:id', userController.user_get);
-router.post('/users/usernames', userController.users_username_check);
-router.post('/avatar/:id', function (req, res) {
+router.get('/users', auth.authenticate(), userController.users_get);
+router.get('/users/:id', auth.authenticate(), userController.user_get);
+router.post(
+  '/users/usernames',
+  auth.authenticate(),
+  userController.users_username_check
+);
+router.post('/avatar/:id', auth.authenticate(), function (req, res) {
   singleUpload(req, res, async function (err) {
     if (err) {
       return res.status(422).send({
@@ -31,6 +35,6 @@ router.post('/avatar/:id', function (req, res) {
     }
   });
 });
-router.put('/users/:id', userController.user_put);
+router.put('/users/:id', auth.authenticate(), userController.user_put);
 
 module.exports = router;

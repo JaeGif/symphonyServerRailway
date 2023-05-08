@@ -3,14 +3,14 @@ const router = express.Router();
 const roomController = require('../controllers/roomController');
 const upload = require('../middleware/uploads');
 const Room = require('../models/Room');
-
+const auth = require('../middleware/auth')();
 const singleUpload = upload.single('image');
 
 /* GET users listing. */
-router.get('/rooms', roomController.rooms_get);
-router.get('/rooms/:id', roomController.room_get);
-router.post('/rooms', roomController.room_post);
-router.post('/rooms/avatar/:id', function (req, res) {
+router.get('/rooms', auth.authenticate(), roomController.rooms_get);
+router.get('/rooms/:id', auth.authenticate(), roomController.room_get);
+router.post('/rooms', auth.authenticate(), roomController.room_post);
+router.post('/rooms/avatar/:id', auth.authenticate(), function (req, res) {
   singleUpload(req, res, async function (err) {
     if (err) {
       return res.status(422).send({
@@ -31,6 +31,6 @@ router.post('/rooms/avatar/:id', function (req, res) {
     }
   });
 });
-router.put('/rooms/:id', roomController.room_put);
+router.put('/rooms/:id', auth.authenticate(), roomController.room_put);
 
 module.exports = router;
