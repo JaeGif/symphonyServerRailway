@@ -5,6 +5,7 @@ const { mongoose } = require('mongoose');
 const fs = require('fs');
 
 exports.login = async function (req, res) {
+  console.log(req.body);
   User.findOne({ username: req.body.username })
     .then((user) => {
       console.log(user);
